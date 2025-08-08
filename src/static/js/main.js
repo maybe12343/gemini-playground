@@ -5,7 +5,6 @@ import { CONFIG } from './config/config.js';
 import { Logger } from './utils/logger.js';
 import { VideoManager } from './video/video-manager.js';
 import { ScreenRecorder } from './video/screen-recorder.js';
-import { languages } from './language-selector.js';
 
 /**
  * @fileoverview Main entry point for the application.
@@ -38,6 +37,40 @@ const systemInstructionInput = document.getElementById('system-instruction');
 systemInstructionInput.value = CONFIG.SYSTEM_INSTRUCTION.TEXT;
 const applyConfigButton = document.getElementById('apply-config');
 const responseTypeSelect = document.getElementById('response-type-select');
+
+// 语言列表硬编码
+const languages = [
+    { name: 'German (Germany)', code: 'de-DE' },
+    { name: 'English (Australia)', code: 'en-AU' },
+    { name: 'English (UK)', code: 'en-GB' },
+    { name: 'English (India)', code: 'en-IN' },
+    { name: 'English (US)', code: 'en-US' },
+    { name: 'Spanish (US)', code: 'es-US' },
+    { name: 'French (France)', code: 'fr-FR' },
+    { name: 'Hindi (India)', code: 'hi-IN' },
+    { name: 'Portuguese (Brazil)', code: 'pt-BR' },
+    { name: 'Arabic (Generic)', code: 'ar-XA' },
+    { name: 'Spanish (Spain)', code: 'es-ES' },
+    { name: 'French (Canada)', code: 'fr-CA' },
+    { name: 'Indonesian (Indonesia)', code: 'id-ID' },
+    { name: 'Italian (Italy)', code: 'it-IT' },
+    { name: 'Japanese (Japan)', code: 'ja-JP' },
+    { name: 'Turkish (Turkey)', code: 'tr-TR' },
+    { name: 'Vietnamese (Vietnam)', code: 'vi-VN' },
+    { name: 'Bengali (India)', code: 'bn-IN' },
+    { name: 'Gujarati (India)', code: 'gu-IN' },
+    { name: 'Kannada (India)', code: 'kn-IN' },
+    { name: 'Marathi (India)', code: 'mr-IN' },
+    { name: 'Malayalam (India)', code: 'ml-IN' },
+    { name: 'Tamil (India)', code: 'ta-IN' },
+    { name: 'Telugu (India)', code: 'te-IN' },
+    { name: 'Dutch (Netherlands)', code: 'nl-NL' },
+    { name: 'Korean (South Korea)', code: 'ko-KR' },
+    { name: 'Mandarin Chinese (China)', code: 'cmn-CN' },
+    { name: 'Polish (Poland)', code: 'pl-PL' },
+    { name: 'Russian (Russia)', code: 'ru-RU' },
+    { name: 'Thai (Thailand)', code: 'th-TH' }
+];
 
 // Load saved values from localStorage
 const savedApiKey = localStorage.getItem('gemini_api_key');
@@ -273,18 +306,17 @@ async function connectToWebsocket() {
         generationConfig: {
             responseModalities: responseTypeSelect.value,
             speechConfig: {
-                languageCode: languageSelect.value,
+                languageCode: languageSelect.value, // 直接传入选中的 languageCode
                 voiceConfig: { 
                     prebuiltVoiceConfig: { 
-                        voiceName: voiceSelect.value    // You can change voice in the config.js file
+                        voiceName: voiceSelect.value
                     }
                 }
             },
-
         },
         systemInstruction: {
             parts: [{
-                text: systemInstructionInput.value     // You can change system instruction in the config.js file
+                text: systemInstructionInput.value
             }],
         }
     };  
